@@ -1,0 +1,87 @@
+	mkdir gitCode
+	cd gitCode
+	然后执行下面的命令
+
+	init：初始化一个git仓库
+	git add .go 添加一个文件到本地git仓库，但还未真正提交到本地仓库，只是存放在了暂存区
+	git commit -m "This is frist commit" 真正提交到了本地仓库
+
+	第一次提交之前要做如下的配置，配置用户邮箱和用户名
+	git config --global user.email "supersom@yeah.net"
+	git config --global user.name "zhongxiaoqing"
+
+	回退版本到上一版本：
+	git reset --hard HEAD^ //HEAD表示当前版本 ^表示回到上一次版本
+
+	回退到指定版本：版本号
+	git reset --hard 251b5e18475d3ccf1e29d4e574685a631805b9c2 
+
+	回退到第一次版本：
+	git reset --hard HEAD~1
+
+
+	git reflog 查看隐藏的提交日志信息
+	git log 查看提交日志
+
+
+	撤销修改:
+	回退还未提交到本地仓库的文件
+	用命令git reset HEAD fileName 可以把暂存区的修改撤销掉，重新放回工作区
+	git reset HEAD code3.go
+	git status 可以看到文件是红色的，表示未添加到本地仓库
+
+
+	直接丢弃工作区的修改的文件：用命令git checkout -- file。
+
+
+	场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令git checkout -- fileName。
+	场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，
+		第一步用命令git reset HEAD file，就回到了场景1，
+		第二步按场景1操作。
+	场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，参考版本回退一节，命令如下：
+		git reset --hard 251b5e18475d3ccf1e29d4e574685a631805b9c2 
+
+
+	对比文件的不同
+		对比工作区和某个版本中文件的不同: git diff HEAD code.go 
+			结果：- 代表HEAD版本中的code.go的内容，+ 代表工作区中文件code.go新加的内容
+
+
+		使用如下命令丢弃工作区的改动:
+			git checkout code.go			
+			git status
+
+
+		对比两个版本间文件的不同：
+			(1) 现在要对比HEAD和HEAD^版本中code.go的不同，使用如下命令
+			git diff HEAD HEAD^ code.go
+			结果：- 代表HEAD版本code.go的内容，+ 代表HEAD^版本code.go的内容
+				红色-：HEAD版本code.go比HEAD^版本code.go多的内容
+
+	删除文件：
+		场景1：从版本库中删除文件，用命令git rm删掉，并且git commit -m "备注信息"，然后: git status
+		场景2：删错了，可以直接使用git checkout - code2.go 命令撤销删除操作，这样文件code2.go又回来了。
+		小结：命令git rm用于删除一个文件。如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复文件到最新版本，你会丢失最近一次提交后你修改的内容。
+
+
+	分支管理：
+		创建分支：git branch devBranch
+
+		切换到devBranch分支：git checkout devBranch 
+
+		切换到master分支：git checkout master
+		
+		合并分支：将devBranch分支的工作成果合并到master分支上
+		先切换到master主分支上，然后执行下面的命令
+		git merge devBranch 命令用于合并指定(devBranch)分支到主(master)分支
+	
+		删除devBranch分支：git branch -d devBranch 
+
+
+		小结：
+			查看分支：git branch
+			创建分支：git branch <name>
+			切换分支：git checkout <name>
+			创建+切换分支：git checkout -b <name>//git checkout -b dev 创建dev分支并切换到dev分支
+			合并某分支到当前分支：git merge <name>
+			删除分支：git branch -d <name>

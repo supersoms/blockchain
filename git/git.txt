@@ -4,6 +4,8 @@
 
 	init：初始化一个git仓库
 	git add .go 添加一个文件到本地git仓库，但还未真正提交到本地仓库，只是存放在了暂存区
+	git add -A 在当前目录下添加所有文件到暂存区
+
 	git commit -m "This is frist commit" 真正提交到了本地仓库
 
 	第一次提交之前要做如下的配置，配置用户邮箱和用户名
@@ -22,6 +24,7 @@
 
 	git reflog 查看隐藏的提交日志信息
 	git log 查看提交日志
+	git log --graph 可以更好的查看提交日志
 
 
 	撤销修改:

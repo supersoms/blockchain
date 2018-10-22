@@ -3,6 +3,9 @@ package main
 import (
 	"crypto/sha256"
 	"time"
+	"bytes"
+	"encoding/binary"
+	"log"
 )
 
 //1.定义结构
@@ -26,9 +29,14 @@ type Block struct {
 	Data []byte
 }
 
-//实现一个辅助函数将uint转成[]byte
+//实现一个辅助函数将uint64转成[]byte类型
 func uint64ToByte(num uint64) []byte {
-	return []byte{}
+	var buffer bytes.Buffer
+	err := binary.Write(&buffer, binary.BigEndian, num)
+	if err != nil {
+		log.Panic(err)
+	}
+	return buffer.Bytes()
 }
 
 //2.创建区块

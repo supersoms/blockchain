@@ -57,7 +57,7 @@ func NewBlock(data string, prevBlock []byte) *Block {
 
 //3.生成哈希
 func (block *Block) SetHash() {
-	var blockInfo []byte
+	/*var blockInfo []byte
 	//1.拼装数据,将block.Data里面的数据打散然后追加到block.PrevHash后面
 	blockInfo = append(blockInfo, uint64ToByte(block.Version)...)
 	blockInfo = append(blockInfo, block.PrevHash...)
@@ -65,7 +65,19 @@ func (block *Block) SetHash() {
 	blockInfo = append(blockInfo, uint64ToByte(block.TimeStamp)...)
 	blockInfo = append(blockInfo, uint64ToByte(block.Difficulty)...)
 	blockInfo = append(blockInfo, uint64ToByte(block.Nonce)...)
-	blockInfo = append(blockInfo, block.Data...)
+	blockInfo = append(blockInfo, block.Data...)*/
+	//TODO 以下代码对上面代码进行优化
+	tmp := [][]byte{
+		uint64ToByte(block.Version),
+		block.PrevHash,
+		block.MerkelRoot,
+		uint64ToByte(block.TimeStamp),
+		uint64ToByte(block.Difficulty),
+		uint64ToByte(block.Nonce),
+		block.Data,
+	}
+	//将二维切片数组链接起来,返回一个一维切片
+	blockInfo := bytes.Join(tmp, []byte{})
 	//2.sha256
 	hash := sha256.Sum256(blockInfo)
 	block.Hash = hash[:]
